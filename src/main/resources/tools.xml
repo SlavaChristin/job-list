@@ -1,0 +1,26 @@
+<tools>
+
+    <tool id="jobs-list" title="Job List" projectTypes="inventory">
+
+        <description></description>
+
+        <parameters>
+             <parameter name="p_servers"        title="Database Servers"   type="string" required="false" multiple="true" 
+                        suggestion="project_connections" width="300" />
+
+             <parameter name="p_action"  title="Action" type="string" required="true" defaultValue="List Jobs">
+                <values>
+                    <string>List Jobs</string>
+                    <string>Generate Drop Script</string>
+                    <string>Run Script</string>
+                </values>
+             </parameter>
+
+             <parameter name="p_filter"  title="Job Filter"   type="text" required="false" width="200" height="10" />
+        </parameters>
+
+        <output  script="jobs-list.groovy" type="html" />
+    </tool>
+
+    
+</tools>
