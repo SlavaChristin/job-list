@@ -106,25 +106,26 @@ dbConnections.each { connectionInfo ->
                 print "<td>${ tools.rsToString(row.category) }</td>"
                 print "<td>${ tools.rsToString(row.last_start_date) }</td>"
                 print "<td>${ tools.rsToString(row.next_run_date) }</td>"
-                print "<td>${ tools.rsToString(row.modified_days_ago) }</td>"
-                print "<td>${ tools.rsToString(row.run_days_ago) }</td>"
-
+                print "<td align=\"right\">${ tools.rsToString(row.modified_days_ago) }</td>"
+                print "<td align=\"right\">${ tools.rsToString(row.run_days_ago) }</td>"
                 println "</tr>"
             }
         }
-        if (p_action=="Generate Drop Script" && rows.size > 0) {
-            println "GO"
-            println ":connect ${rows[0].server_name}"
-            rows.each { job ->
-                print "-- DELETE JOB \"${job.job_name}\" category \"${tools.rsToString(job.category)}\" "
-                print " modified ${tools.rsToString(job.modified_days_ago)} day(s) ago, "
-                println "last run: ${job.run_days_ago == null ? "never" : job.run_days_ago + " days ago" }"
-                println "exec msdb.dbo.sp_delete_job @job_id ='${job.job_id}', @delete_history = 1, @delete_unused_schedule=1"
+        if (p_action=="Generate Drop Script") {
+            if (rows.size > 0) {
+                println "GO"
+                println ":connect ${rows[0].server_name}"
+                rows.each { job ->
+                    print "-- DELETE JOB \"${job.job_name}\" category \"${tools.rsToString(job.category)}\" "
+                    print " modified ${tools.rsToString(job.modified_days_ago)} day(s) ago, "
+                    println "last run: ${job.run_days_ago == null ? "never" : job.run_days_ago + " days ago" }"
+                    println "exec msdb.dbo.sp_delete_job @job_id ='${job.job_id}', @delete_history = 1, @delete_unused_schedule=1"
+                    println ""
+                }
                 println ""
+            } else {
+                println "-- No jobs found at server ${connectionInfo.name}"
             }
-            println ""
-        } else {
-            println "-- No jobs found at server ${connectionInfo.name}"
         }
     } catch (Exception e) {
         def msg = "Cannot retrieve job information"

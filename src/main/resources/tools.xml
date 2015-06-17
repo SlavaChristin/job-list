@@ -12,15 +12,13 @@
                 <values>
                     <string>List Jobs</string>
                     <string>Generate Drop Script</string>
-                    <string>Run Script</string>
                 </values>
              </parameter>
 
              <parameter name="p_filter"  title="Job Filter"   type="text" required="false" width="200" height="10" />
         </parameters>
 
-        <output  script="jobs-list.groovy" type="html" />
+        <output  script="job-list.groovy" type="html" />
     </tool>
-
     
 </tools>
