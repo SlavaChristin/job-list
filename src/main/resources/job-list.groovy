@@ -71,7 +71,7 @@ if (p_action=="List Jobs") {
 }
 if (p_action=="Generate Drop Script") {
     println "<pre>"
-    println "/* FILTER: \n ${p_filter}\n */"
+    println """/* FILTER: \n ${p_filter?:"no filter"}\n */"""
    
     println "-- SWITCH to SQLCMD mode before running the script"
     println ":on error exit"
