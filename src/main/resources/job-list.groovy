@@ -1,5 +1,5 @@
 import com.branegy.service.connection.api.ConnectionService
-import io.dbmaster.api.groovy.DbmTools
+import io.dbmaster.tools.DbmTools
 import groovy.sql.Sql
 
 def QUERY = """
@@ -96,18 +96,18 @@ dbConnections.each { connectionInfo ->
             rows.each { row ->
                 print "<tr>"
                 
-                print "<td>${ tools.rsToString(row.server_name) }</td>"
-                print "<td>${ tools.rsToString(row.job_name) }</td>"
-                print "<td>${ tools.rsToString(row.job_description) }</td>"
-                print "<td>${ tools.rsToString(row.date_created) }</td>"
-                print "<td>${ tools.rsToString(row.date_modified) }</td>"
-                print "<td>${ tools.rsToString(row.job_enabled) }</td>"
-                print "<td>${ tools.rsToString(row.running) }</td>"
-                print "<td>${ tools.rsToString(row.category) }</td>"
-                print "<td>${ tools.rsToString(row.last_start_date) }</td>"
-                print "<td>${ tools.rsToString(row.next_run_date) }</td>"
-                print "<td align=\"right\">${ tools.rsToString(row.modified_days_ago) }</td>"
-                print "<td align=\"right\">${ tools.rsToString(row.run_days_ago) }</td>"
+                print "<td>${ tools.convertObject(row.server_name) }</td>"
+                print "<td>${ tools.convertObject(row.job_name) }</td>"
+                print "<td>${ tools.convertObject(row.job_description) }</td>"
+                print "<td>${ tools.convertObject(row.date_created) }</td>"
+                print "<td>${ tools.convertObject(row.date_modified) }</td>"
+                print "<td>${ tools.convertObject(row.job_enabled) }</td>"
+                print "<td>${ tools.convertObject(row.running) }</td>"
+                print "<td>${ tools.convertObject(row.category) }</td>"
+                print "<td>${ tools.convertObject(row.last_start_date) }</td>"
+                print "<td>${ tools.convertObject(row.next_run_date) }</td>"
+                print "<td align=\"right\">${ tools.convertObject(row.modified_days_ago) }</td>"
+                print "<td align=\"right\">${ tools.convertObject(row.run_days_ago) }</td>"
                 println "</tr>"
             }
         }
@@ -116,8 +116,8 @@ dbConnections.each { connectionInfo ->
                 println "GO"
                 println ":connect ${rows[0].server_name}"
                 rows.each { job ->
-                    print "-- DELETE JOB \"${job.job_name}\" category \"${tools.rsToString(job.category)}\" "
-                    print " modified ${tools.rsToString(job.modified_days_ago)} day(s) ago, "
+                    print "-- DELETE JOB \"${job.job_name}\" category \"${tools.convertObject(job.category)}\" "
+                    print " modified ${tools.convertObject(job.modified_days_ago)} day(s) ago, "
                     println "last run: ${job.run_days_ago == null ? "never" : job.run_days_ago + " days ago" }"
                     println "exec msdb.dbo.sp_delete_job @job_id ='${job.job_id}', @delete_history = 1, @delete_unused_schedule=1"
                     println ""
